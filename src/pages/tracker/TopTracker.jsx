@@ -1,8 +1,13 @@
 import Selectbox from "@/components/ui/Selectbox"
+import { pesrianDayName } from '@/utils/getPersianDayName';
 import icons from "../../icons"
+import moment from 'moment-jalaali';
 
 
-const TopTracker = () => {
+const TopTracker = ({ backOneDay, forwardOneDay, selectedDate }) => {
+    const currentDate = moment().startOf('day');
+    const nextDay = selectedDate.clone().startOf('day').add(1, 'day');
+
     const { Plus, Play, Stop, AngleRight } = icons
     return (
         <section className='flex items-center justify-between '>
@@ -18,12 +23,19 @@ const TopTracker = () => {
                 </button>
                 <Selectbox />
             </div>
-            <div className="flex justify-center items-center gap-3">
-                <button className="p-1 bg-dark rounded-full mt-1">
-                    <AngleRight className="text-xl cursor-pointer" />
-                </button>
-                <p className="mt-1 text-2xl">یکشنبه</p>
-                <button className="p-1 bg-dark rounded-full mt-1 rotate-180">
+            <div className="flex justify-center items-center gap-3 select-none">
+                {nextDay.isAfter(currentDate)
+                    ?
+                    <button className="p-2 bg-dark opacity-70 rounded-full mt-1 cursor-not-allowed">
+                        <AngleRight className="text-xl" />
+                    </button>
+                    :
+                    <button onClick={forwardOneDay} className="p-2 bg-dark rounded-full mt-1">
+                        <AngleRight className="text-xl cursor-pointer" />
+                    </button>
+                }
+                <p className="mt-1 text-2xl">{pesrianDayName(selectedDate)}</p>
+                <button onClick={backOneDay} className="p-2 bg-dark rounded-full mt-1 rotate-180">
                     <AngleRight className="text-xl cursor-pointer" />
                 </button>
             </div>
