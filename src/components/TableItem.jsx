@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { TableCell, TableRow } from './ui/table'
 import moment from 'moment-jalaali';
-import { putEditTime, stopTask } from '@/api/timesApi';
+import { deleteTask, putEditTime, stopTask } from '@/api/timesApi';
 import getLocalStorage from '@/utils/getLocalStorage';
 import icons from '@/icons';
+import { toast } from 'sonner';
 
-const TableItem = ({ task }) => {
+const TableItem = ({ task , reloadFetchTask}) => {
+    
     const { Stop } = icons
-    console.log(task)
     const [taskTitle, setTaskTitle] = useState("")
     const [taskDescription, setTaskDescription] = useState("")
     const [startTime, setStartTime] = useState("");
@@ -17,7 +18,6 @@ const TableItem = ({ task }) => {
 
 
     const editTask = (taskId) => {
-        console.log("endTime => " , endTime)
         const newTask = {
             title: taskTitle,
             description: taskDescription,
@@ -27,12 +27,19 @@ const TableItem = ({ task }) => {
 
 
         putEditTime(taskId, newTask, token)
-            .then(res => console.log(res.data))
+            .then(res => {
+                toast.success("با موفقیت تغییر کرد")
+            })
+    }
+
+    const deleteTaskHandler = (id) => {
+        deleteTask(id,token)
+        .then(res => reloadFetchTask())
     }
 
     const stopTaskHandler = (id) => {
-        stopTask(id,token)
-        .then(res => setEndTime(changeTimeFormat(res.data.timeEntry.endTime)))
+        stopTask(id, token)
+            .then(res => setEndTime(changeTimeFormat(res.data.timeEntry.endTime)))
     }
 
     const convertToISOString = (timeStr, baseDate) => {
@@ -52,9 +59,9 @@ const TableItem = ({ task }) => {
         return moment.utc(time).local().format("HH:mm")
     }
     useEffect(() => {
-        task.startTime ? setStartTime(changeTimeFormat(task.startTime)) : setStartTime("--:--")
+        task.startTime ? setStartTime(changeTimeFormat(task.startTime)) : setStartTime("")
 
-        task.endTime ? setEndTime(moment.utc(task.endTime).local().format("HH:mm")) : setEndTime("--:--")
+        task.endTime ? setEndTime(moment.utc(task.endTime).local().format("HH:mm")) : setEndTime("")
 
         task.title ? setTaskTitle(task.title) : ""
 
@@ -88,11 +95,12 @@ const TableItem = ({ task }) => {
             </TableCell>
             <TableCell className="text-right flex items-center mt-6">
                 <button onClick={() => editTask(task._id)} className='bg-green-800 py-1.5 px-3 text-sm rounded-lg cursor-pointer'>ذخیره</button>
-                <button className='bg-red-700 py-1.5 px-3 text-sm rounded-lg cursor-pointer mr-3'>حذف</button>
-                {!task.endTime && 
-                <button className='p-1.5 text-sm rounded-sm cursor-pointer mr-5'>
-                    <Stop onClick={() => stopTaskHandler(task._id)} className='text-lg text-red-700' />
-                </button>
+                <button onClick={() => deleteTaskHandler(task._id)}
+                    className='bg-red-700 py-1.5 px-3 text-sm rounded-lg cursor-pointer mr-3'>حذف</button>
+                {!endTime &&
+                    <button onClick={() => stopTaskHandler(task._id)} className='p-1.5 text-sm rounded-sm cursor-pointer mr-5'>
+                        <Stop className='text-lg text-red-700' />
+                    </button>
                 }
             </TableCell>
         </TableRow>

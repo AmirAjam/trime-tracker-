@@ -47,6 +47,34 @@ const stopTask = async (id, token) => {
     }
 };
 
+const addTask = async (token) => {
+    try {
+        const response = await axios.post(`/time-entries/start`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return err.response;
+    }
+};
 
-
-export { getTimes, putEditTime, stopTask }
+const deleteTask = async (id,token) => {
+    try {
+        const response = await axios.delete(`/time-entries/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return err.response;
+    }
+};
+export { getTimes, putEditTime, stopTask,addTask , deleteTask}

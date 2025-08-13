@@ -11,31 +11,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import TableItem from '../TableItem';
+import { getTimes } from '@/api/timesApi';
 
+const PrimaryTable = ({tasks,reloadFetchTask}) => {
 
-const invoices = [
-  {
-    invoice: "پروژه time tracker",
-    start: "12:05",
-    end: "12:20",
-    desc: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "پروژه time tracker",
-    start: "12:05",
-    end: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "پروژه time tracker",
-    start: "12:05",
-    end: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-]
-
-const PrimaryTable = ({tasks}) => {
   return (
     <Table className="bg-darker rounded-lg">
       <TableHeader>
@@ -48,8 +27,8 @@ const PrimaryTable = ({tasks}) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {tasks?.map((task,index) => (
-          <TableItem key={task._id} task={task}/>
+        {tasks?.map((task) => (
+          <TableItem key={task._id} task={task} reloadFetchTask={reloadFetchTask} />
         ))}
       </TableBody>
     </Table>

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import TopTracker from './TopTracker'
 import moment from 'moment-jalaali';
-import TrackerTable from './TrackerTable';
-import { getTimes } from '@/api/timesApi';
+import PrimaryTable from '@/components/ui/PrimaryTable';
 import getLocalStorage from '@/utils/getLocalStorage';
+import { getTimes } from '@/api/timesApi';
 
 const Tracker = () => {
-    const [tasks,setTasks] = useState(null)
-    const [selectedDate , setSelectedDate] = useState(moment());
-    
+    const [tasks, setTasks] = useState(null)
+    const [selectedDate, setSelectedDate] = useState(moment());
+
     const backOneDay = () => {
         setSelectedDate(prev => prev.clone().subtract(1, 'day'))
     }
@@ -19,10 +19,13 @@ const Tracker = () => {
 
     const token = getLocalStorage('token')
 
+    const getTasks = () => {
+        getTimes(selectedDate.format("YYYY-MM-DD"), token)
+            .then(res => setTasks(res.data.tasks))
+    }
     useEffect(() => {
-        getTimes(selectedDate.format("YYYY-MM-DD") , token)
-        .then(res => setTasks(res.data.tasks))
-    },[selectedDate])
+        getTasks()
+    }, [selectedDate])
 
     return (
         <main className='py-10'>
@@ -30,11 +33,11 @@ const Tracker = () => {
                 <TopTracker
                     backOneDay={backOneDay}
                     forwardOneDay={forwardOneDay}
-                    selectedDate={selectedDate} />
-                    <section>
-                        
-                    </section>
-                    <TrackerTable tasks={tasks}/>
+                    selectedDate={selectedDate}
+                    reloadFetchTask={getTasks} />
+                <section className='mt-12'>
+                    <PrimaryTable tasks={tasks} reloadFetchTask={getTasks} />
+                </section>
             </div>
         </main>
     )

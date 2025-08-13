@@ -5,9 +5,10 @@ import moment from 'moment-jalaali';
 import { useEffect, useId, useState } from "react";
 import { getAllUsers, getUser } from "@/api/userAPi";
 import getLocalStorage from "@/utils/getLocalStorage";
+import { addTask } from "@/api/timesApi";
 
 
-const TopTracker = ({ backOneDay, forwardOneDay, selectedDate }) => {
+const TopTracker = ({ backOneDay, forwardOneDay, selectedDate,reloadFetchTask }) => {
     const [users, setUsers] = useState(null)
 
     const currentDate = moment().startOf('day');
@@ -17,18 +18,23 @@ const TopTracker = ({ backOneDay, forwardOneDay, selectedDate }) => {
     const userId = getLocalStorage('id')
     const { Plus, Play, Stop, AngleRight } = icons
 
-    useEffect(() => {
+    const addNewTask = () => {
+        addTask(token)
+        .then(res => console.log(res.data))
+        reloadFetchTask()
+    }
 
+    useEffect(() => {
         getAllUsers(token)
             .then(res => setUsers(res.data.users))
     }, [])
     return (
         <section className='flex items-center justify-between '>
             <div className="flex justify-center items-center gap-5">
-                <button className="bg-green-600 rounded-full cursor-pointer size-10 flex justify-center 
+                <button onClick={addNewTask} className="bg-green-600 rounded-full cursor-pointer size-10 flex justify-center 
                     items-center hover:bg-green-700 duration-300">
-                    <Plus className="text-3xl hidden" />
-                    <Play className="text-xl mb-.5 ml-1" />
+                    {/* <Plus className="text-3xl hidden" /> */}
+                    <Play  className="text-xl mb-.5 ml-1" />
                 </button>
                 <button className="bg-red-600 rounded-full cursor-pointer size-10 flex justify-center 
                     items-center hover:bg-red-700 duration-300">
