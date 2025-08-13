@@ -37,9 +37,9 @@ const invoices = [
 const PrimaryTable = () => {
   const [times, setTimes] = React.useState(invoices.map(i => i.start));
   return (
-    <Table>
+    <Table className="bg-darker rounded-lg">
       <TableHeader>
-        <TableRow className="text-white! hover:bg-darker/60">
+        <TableRow className="text-white! hover:bg-dark/60">
           <TableHead className="w-1/4 text-right text-white">تیتر</TableHead>
           <TableHead className="text-right w-1/10 text-white">شروع</TableHead>
           <TableHead className="text-right w-1/10 text-white">پایان</TableHead>
@@ -47,19 +47,19 @@ const PrimaryTable = () => {
           <TableHead className="text-right w-2/10 text-white">عملیات</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      {/* <TableBody>
         {invoices.map((invoice) => (
-          <TableRow className="text-lg hover:bg-darker hover:bg-darker/60" key={crypto.randomUUID()}>
+          <TableRow className="text-lg hover:bg-dark/60" key={crypto.randomUUID()}>
             <TableCell className="font-medium">{invoice.invoice}</TableCell>
             <TableCell>
-              <input type="text" value={invoice.start} className='bg-darker py-1 w-18 text-center rounded-sm' />
+              <input type="text" value={invoice.start} className='bg-dark py-1 w-18 text-center rounded-sm' />
             </TableCell>
             <TableCell>
-              <input type="text" value={invoice.end} className='bg-darker py-1 w-18 text-center rounded-sm' />
+              <input type="text" value={invoice.end} className='bg-dark py-1 w-18 text-center rounded-sm' />
             </TableCell>
             <TableCell>
               <textarea name="" value={invoice.desc} id="" className='w-9/10 overflow-hidden text-sm h-20
-               bg-darker rounded-lg outline-0 px-2'></textarea>
+               bg-dark rounded-lg outline-0 px-2'></textarea>
             </TableCell>
             <TableCell className="text-right">
               <button className='bg-green-800 py-1.5 px-3 text-sm rounded-lg cursor-pointer'>ذخیره</button>
@@ -67,7 +67,7 @@ const PrimaryTable = () => {
             </TableCell>
           </TableRow>
         ))}
-      </TableBody>
+      </TableBody> */}
     </Table>
   )
 }
