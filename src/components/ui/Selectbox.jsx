@@ -7,23 +7,22 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useState } from "react"
 
-const Selectbox = () => {
+const Selectbox = ({ options, defultOption }) => {
     return (
-        <Select defaultValue="apple" className="bg-darker border-gray-300! ">
+        <Select defaultValue={defultOption} className="bg-darker border-gray-300! ">
             <SelectTrigger className="w-52 h-11! cursor-pointer">
-                <SelectValue placeholder="Select a fruit" />
+                <SelectValue placeholder="در حال لود..." />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectItem value="apple"> اصغر</SelectItem>
-                    <SelectItem value="banana">اصغر</SelectItem>
-                    <SelectItem value="blueberry">اصغر</SelectItem>
-                    <SelectItem value="grapes">اصغر</SelectItem>
-                    <SelectItem value="pineapple">اصغر</SelectItem>
+                    {options?.map(option => <SelectItem key={option._id}
+                        value={option._id}>{option.name}</SelectItem>
+                    )}
                 </SelectGroup>
             </SelectContent>
-        </Select>
+        </Select >
     )
 }
 

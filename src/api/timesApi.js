@@ -1,13 +1,19 @@
-const getTimes = async (day) => {
-    try {
-        const response = await axios.get("/auth/login", {
-            day:day
-        })
-        console.log(response)
-        return response
-    } catch (err) {
-        return err.response
-    }
-}
+import axios from "../api/axiosConfig"
 
-export {getTimes}
+const getTimes = async (day, token) => {
+    console.log(token)
+    try {
+        const response = await axios.get("/time-entries", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: { day }
+        });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return err.response;
+    }
+};
+
+export { getTimes }

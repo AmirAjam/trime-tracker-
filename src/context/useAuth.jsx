@@ -8,9 +8,6 @@ export const AuthProvider = ({ children }) => {
 
   const isLogin = getLocalStorage('token') ? true : false
   
-  console.log(isLogin)
-
-  console.log(getLocalStorage('token'))
 
   return (
     <AuthContext.Provider value={{ isLogin}}>

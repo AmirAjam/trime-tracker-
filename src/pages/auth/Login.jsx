@@ -24,6 +24,7 @@ const Login = () => {
       if (response.status === 200) {
         toast.success("ورود موفقیت‌آمیز بود!");
         setLocalStorage("token",response.data.accessToken)
+        setLocalStorage("id",response.data.user.id)
         setTimeout(() => {
           navigate('/')
         }, 3000);

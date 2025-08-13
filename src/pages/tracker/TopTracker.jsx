@@ -2,13 +2,26 @@ import Selectbox from "@/components/ui/Selectbox"
 import { pesrianDayName } from '@/utils/getPersianDayName';
 import icons from "../../icons"
 import moment from 'moment-jalaali';
+import { useEffect, useId, useState } from "react";
+import { getAllUsers, getUser } from "@/api/userAPi";
+import getLocalStorage from "@/utils/getLocalStorage";
 
 
 const TopTracker = ({ backOneDay, forwardOneDay, selectedDate }) => {
+    const [users, setUsers] = useState(null)
+
     const currentDate = moment().startOf('day');
     const nextDay = selectedDate.clone().startOf('day').add(1, 'day');
 
+    const token = getLocalStorage('token')
+    const userId = getLocalStorage('id')
     const { Plus, Play, Stop, AngleRight } = icons
+
+    useEffect(() => {
+
+        getAllUsers(token)
+            .then(res => setUsers(res.data.users))
+    }, [])
     return (
         <section className='flex items-center justify-between '>
             <div className="flex justify-center items-center gap-5">
@@ -21,7 +34,7 @@ const TopTracker = ({ backOneDay, forwardOneDay, selectedDate }) => {
                     items-center hover:bg-red-700 duration-300">
                     <Stop className="text-xl" />
                 </button>
-                <Selectbox />
+                <Selectbox options={users} defultOption={userId} />
             </div>
             <div className="flex justify-center items-center gap-3 select-none">
                 {nextDay.isAfter(currentDate)

@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import TableItem from '../TableItem';
 
 
 const invoices = [
@@ -47,27 +48,11 @@ const PrimaryTable = () => {
           <TableHead className="text-right w-2/10 text-white">عملیات</TableHead>
         </TableRow>
       </TableHeader>
-      {/* <TableBody>
-        {invoices.map((invoice) => (
-          <TableRow className="text-lg hover:bg-dark/60" key={crypto.randomUUID()}>
-            <TableCell className="font-medium">{invoice.invoice}</TableCell>
-            <TableCell>
-              <input type="text" value={invoice.start} className='bg-dark py-1 w-18 text-center rounded-sm' />
-            </TableCell>
-            <TableCell>
-              <input type="text" value={invoice.end} className='bg-dark py-1 w-18 text-center rounded-sm' />
-            </TableCell>
-            <TableCell>
-              <textarea name="" value={invoice.desc} id="" className='w-9/10 overflow-hidden text-sm h-20
-               bg-dark rounded-lg outline-0 px-2'></textarea>
-            </TableCell>
-            <TableCell className="text-right">
-              <button className='bg-green-800 py-1.5 px-3 text-sm rounded-lg cursor-pointer'>ذخیره</button>
-              <button className='bg-red-800 py-1.5 px-3 text-sm rounded-lg cursor-pointer mr-5'>حذف</button>
-            </TableCell>
-          </TableRow>
+      <TableBody>
+        {invoices.map((invoice,index) => (
+          <TableItem key={index} invoice={invoice}/>
         ))}
-      </TableBody> */}
+      </TableBody>
     </Table>
   )
 }
