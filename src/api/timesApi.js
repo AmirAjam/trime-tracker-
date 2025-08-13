@@ -1,7 +1,6 @@
 import axios from "../api/axiosConfig"
 
 const getTimes = async (day, token) => {
-    console.log(token)
     try {
         const response = await axios.get("/time-entries", {
             headers: {
@@ -16,4 +15,38 @@ const getTimes = async (day, token) => {
     }
 };
 
-export { getTimes }
+const putEditTime = async (id, data, token) => {
+    try {
+        const response = await axios.put(`/time-entries/${id}`,
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return err.response;
+    }
+};
+
+const stopTask = async (id, token) => {
+    try {
+        const response = await axios.post(`/time-entries/${id}/stop`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return err.response;
+    }
+};
+
+
+
+export { getTimes, putEditTime, stopTask }

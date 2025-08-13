@@ -35,8 +35,7 @@ const invoices = [
   },
 ]
 
-const PrimaryTable = () => {
-  const [times, setTimes] = React.useState(invoices.map(i => i.start));
+const PrimaryTable = ({tasks}) => {
   return (
     <Table className="bg-darker rounded-lg">
       <TableHeader>
@@ -49,8 +48,8 @@ const PrimaryTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {invoices.map((invoice,index) => (
-          <TableItem key={index} invoice={invoice}/>
+        {tasks?.map((task,index) => (
+          <TableItem key={task._id} task={task}/>
         ))}
       </TableBody>
     </Table>

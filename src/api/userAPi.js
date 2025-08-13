@@ -9,7 +9,6 @@ const getAllUsers = async (token) => {
         });
         return response;
     } catch (err) {
-        console.log(err);
         return err.response;
     }
 };

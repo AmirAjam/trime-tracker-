@@ -6,7 +6,7 @@ import { getTimes } from '@/api/timesApi';
 import getLocalStorage from '@/utils/getLocalStorage';
 
 const Tracker = () => {
-    const [times,setTimes] = useState(null)
+    const [tasks,setTasks] = useState(null)
     const [selectedDate , setSelectedDate] = useState(moment());
     
     const backOneDay = () => {
@@ -20,8 +20,8 @@ const Tracker = () => {
     const token = getLocalStorage('token')
 
     useEffect(() => {
-        // getTimes(selectedDate.format("YYYY-MM-DD") , token)
-        // .then(response => console.log(response))
+        getTimes(selectedDate.format("YYYY-MM-DD") , token)
+        .then(res => setTasks(res.data.tasks))
     },[selectedDate])
 
     return (
@@ -34,7 +34,7 @@ const Tracker = () => {
                     <section>
                         
                     </section>
-                    <TrackerTable />
+                    <TrackerTable tasks={tasks}/>
             </div>
         </main>
     )
