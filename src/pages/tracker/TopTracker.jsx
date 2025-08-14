@@ -5,10 +5,10 @@ import moment from 'moment-jalaali';
 import { useEffect, useId, useState } from "react";
 import { getAllUsers, getUser } from "@/api/userAPi";
 import getLocalStorage from "@/utils/getLocalStorage";
-import { addTask } from "@/api/timesApi";
+import { addManualTask, addTask } from "@/api/timesApi";
 
 
-const TopTracker = ({ backOneDay, forwardOneDay, selectedDate,reloadFetchTask }) => {
+const TopTracker = ({ backOneDay, forwardOneDay, selectedDate, reloadFetchTask,changeUser }) => {
     const [users, setUsers] = useState(null)
 
     const currentDate = moment().startOf('day');
@@ -19,9 +19,24 @@ const TopTracker = ({ backOneDay, forwardOneDay, selectedDate,reloadFetchTask })
     const { Plus, Play, Stop, AngleRight } = icons
 
     const addNewTask = () => {
-        addTask(token)
-        .then(res => console.log(res.data))
+        if (nextDay.isAfter(currentDate)) {
+            addTask(token)
+                .then(res => console.log(res.data))
+        }
+        else {
+            // console.log()
+            // console.log(selectedDate.format("YYYY-MM-DD[T]HH:mm:ss.SSS[+02:00]"))
+            // const manualTask = {
+            //     title: "Hello",
+            //     description: "",
+            //     startTime: selectedDate.format("YYYY-MM-DD[T]HH:mm:ss.SSS[+00:00]"),
+            //     endTime: selectedDate.format("YYYY-MM-DD[T]HH:mm:ss.SSS[+00:00]")
+            // }
+            // addManualTask(manualTask, token)
+            //     .then(res => console.log(res.))
+        }
         reloadFetchTask()
+
     }
 
     useEffect(() => {
@@ -34,13 +49,13 @@ const TopTracker = ({ backOneDay, forwardOneDay, selectedDate,reloadFetchTask })
                 <button onClick={addNewTask} className="bg-green-600 rounded-full cursor-pointer size-10 flex justify-center 
                     items-center hover:bg-green-700 duration-300">
                     {/* <Plus className="text-3xl hidden" /> */}
-                    <Play  className="text-xl mb-.5 ml-1" />
+                    <Play className="text-xl mb-.5 ml-1" />
                 </button>
                 <button className="bg-red-600 rounded-full cursor-pointer size-10 flex justify-center 
                     items-center hover:bg-red-700 duration-300">
                     <Stop className="text-xl" />
                 </button>
-                <Selectbox options={users} defultOption={userId} />
+                <Selectbox options={users} defultOption={userId} changeUser={changeUser}/>
             </div>
             <div className="flex justify-center items-center gap-3 select-none">
                 {nextDay.isAfter(currentDate)

@@ -15,6 +15,21 @@ const getTimes = async (day, token) => {
     }
 };
 
+const getOtherUserTimes = async (day,id,token) => {
+    try {
+        const response = await axios.get(`time-entries/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: { day }
+        });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return err.response;
+    }
+};
+
 const putEditTime = async (id, data, token) => {
     try {
         const response = await axios.put(`/time-entries/${id}`,
@@ -63,6 +78,22 @@ const addTask = async (token) => {
     }
 };
 
+const addManualTask = async (data,token) => {
+    try {
+        const response = await axios.post(`/time-entries/start`,
+            data,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+        return response;
+    } catch (err) {
+        console.log(err);
+        return err.response;
+    }
+};
+
 const deleteTask = async (id,token) => {
     try {
         const response = await axios.delete(`/time-entries/${id}`,
@@ -77,4 +108,4 @@ const deleteTask = async (id,token) => {
         return err.response;
     }
 };
-export { getTimes, putEditTime, stopTask,addTask , deleteTask}
+export { getTimes, putEditTime, stopTask,addTask , deleteTask,addManualTask,getOtherUserTimes}

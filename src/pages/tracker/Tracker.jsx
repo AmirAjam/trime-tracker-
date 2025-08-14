@@ -4,10 +4,16 @@ import moment from 'moment-jalaali';
 import PrimaryTable from '@/components/ui/PrimaryTable';
 import getLocalStorage from '@/utils/getLocalStorage';
 import { getTimes } from '@/api/timesApi';
+import ReadOnlyTable from '@/components/ReadOnlyTable';
 
 const Tracker = () => {
     const [tasks, setTasks] = useState(null)
+    const [totalTime, setTotalTime] = useState(0)
     const [selectedDate, setSelectedDate] = useState(moment());
+    const [otherUserId, setOtherUserId] = useState("")
+
+    const token = getLocalStorage('token')
+    const userId = getLocalStorage('id')
 
     const backOneDay = () => {
         setSelectedDate(prev => prev.clone().subtract(1, 'day'))
@@ -17,14 +23,28 @@ const Tracker = () => {
         setSelectedDate(prev => prev.clone().add(1, 'day'))
     }
 
-    const token = getLocalStorage('token')
+    const changeUser = (value) => {
+        value !== userId ? setOtherUserId(value) : setOtherUserId(null)
+    }
+
 
     const getTasks = () => {
         getTimes(selectedDate.format("YYYY-MM-DD"), token)
-            .then(res => setTasks(res.data.tasks))
+            .then(res => {
+                setTasks(res.data.tasks)
+                setTotalTime(res.data.totalMinutes)
+            })
     }
+
+
+    const formatMinutesToHHMM = (minutes) => {
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+    };
+
     useEffect(() => {
-        getTasks()
+        !otherUserId ? getTasks() : ""
     }, [selectedDate])
 
     return (
@@ -34,12 +54,17 @@ const Tracker = () => {
                     backOneDay={backOneDay}
                     forwardOneDay={forwardOneDay}
                     selectedDate={selectedDate}
-                    reloadFetchTask={getTasks} />
-                <section className='mt-12'>
-                    <PrimaryTable tasks={tasks} reloadFetchTask={getTasks} />
+                    reloadFetchTask={getTasks}
+                    changeUser={changeUser} />
+                <section className='mt-12 bg-darker rounded-lg p-3'>
+                    <h2 className='text-2xl'>مجموع : {formatMinutesToHHMM(totalTime)}</h2>
                 </section>
                 <section className='mt-12'>
-                    <PrimaryTable tasks={tasks} reloadFetchTask={getTasks} />
+                    {!otherUserId ?
+                        < PrimaryTable tasks={tasks} reloadFetchTask={getTasks} />
+                        :
+                        < ReadOnlyTable selectedDate={selectedDate} userId={otherUserId} setTotalTime={setTotalTime} />
+                    }
                 </section>
             </div>
         </main>

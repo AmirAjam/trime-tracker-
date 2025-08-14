@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/select"
 import { useState } from "react"
 
-const Selectbox = ({ options, defultOption }) => {
+const Selectbox = ({ options, defultOption,changeUser }) => {
     return (
-        <Select defaultValue={defultOption} className="bg-darker border-gray-300! ">
+        <Select onValueChange={(value) => changeUser(value)} defaultValue={defultOption} className="bg-darker border-gray-300! ">
             <SelectTrigger className="w-52 h-11! cursor-pointer">
                 <SelectValue placeholder="در حال لود..." />
             </SelectTrigger>
