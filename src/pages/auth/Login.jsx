@@ -22,9 +22,9 @@ const Login = () => {
       const response = await loginUser(data);
       console.log(response)
       if (response.status === 200) {
-        toast.success("ورود موفقیت‌آمیز بود!");
         setLocalStorage("token",response.data.accessToken)
         setLocalStorage("id",response.data.user.id)
+        toast.success("ورود موفقیت‌آمیز بود!");
         setTimeout(() => {
           navigate('/')
         }, 3000);

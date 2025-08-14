@@ -5,6 +5,7 @@ import PrimaryTable from '@/components/ui/PrimaryTable';
 import getLocalStorage from '@/utils/getLocalStorage';
 import { getTimes } from '@/api/timesApi';
 import ReadOnlyTable from '@/components/ReadOnlyTable';
+import { Link } from 'react-router-dom';
 
 const Tracker = () => {
     const [tasks, setTasks] = useState(null)
@@ -56,8 +57,9 @@ const Tracker = () => {
                     selectedDate={selectedDate}
                     reloadFetchTask={getTasks}
                     changeUser={changeUser} />
-                <section className='mt-12 bg-darker rounded-lg p-3'>
+                <section className='mt-12 bg-darker rounded-lg p-5 flex justify-between items-center'>
                     <h2 className='text-2xl'>مجموع : {formatMinutesToHHMM(totalTime)}</h2>
+                    <Link className='text-xl' to="/report">گزارش</Link>
                 </section>
                 <section className='mt-12'>
                     {!otherUserId ?
