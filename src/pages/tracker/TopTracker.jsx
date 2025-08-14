@@ -6,6 +6,7 @@ import { useEffect, useId, useState } from "react";
 import { getAllUsers, getUser } from "@/api/userAPi";
 import getLocalStorage from "@/utils/getLocalStorage";
 import { addManualTask, addTask } from "@/api/timesApi";
+import { toast } from "sonner";
 
 
 const TopTracker = ({ backOneDay, forwardOneDay, selectedDate, reloadFetchTask,changeUser }) => {
@@ -21,19 +22,9 @@ const TopTracker = ({ backOneDay, forwardOneDay, selectedDate, reloadFetchTask,c
     const addNewTask = () => {
         if (nextDay.isAfter(currentDate)) {
             addTask(token)
-                .then(res => console.log(res.data))
+                .then(res => toast.success("با موفقیت اضافه شد"))
         }
         else {
-            // console.log()
-            // console.log(selectedDate.format("YYYY-MM-DD[T]HH:mm:ss.SSS[+02:00]"))
-            // const manualTask = {
-            //     title: "Hello",
-            //     description: "",
-            //     startTime: selectedDate.format("YYYY-MM-DD[T]HH:mm:ss.SSS[+00:00]"),
-            //     endTime: selectedDate.format("YYYY-MM-DD[T]HH:mm:ss.SSS[+00:00]")
-            // }
-            // addManualTask(manualTask, token)
-            //     .then(res => console.log(res.))
         }
         reloadFetchTask()
 

@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -13,10 +11,10 @@ import {
 import { getOtherUserTimes, getTimes } from '@/api/timesApi';
 import getLocalStorage from '@/utils/getLocalStorage';
 import moment from 'moment-jalaali';
+import { formatMinutesToHHMM } from '@/utils/changeDuratonTimeFormat';
 
 
 const ReadOnlyTable = ({ selectedDate, userId,setTotalTime }) => {
-    console.log(selectedDate)
     const [tasks, setTasks] = useState(null)
     const token = getLocalStorage('token')
 
@@ -24,21 +22,13 @@ const ReadOnlyTable = ({ selectedDate, userId,setTotalTime }) => {
         return moment.utc(time).local().format("HH:mm")
     }
 
-    const formatMinutesToHHMM = (minutes) => {
-        const hours = Math.floor(minutes / 60);
-        const mins = minutes % 60;
-        return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
-    };
-
     useEffect(() => {
         getOtherUserTimes(selectedDate.format("YYYY-MM-DD"), userId, token)
             .then(res => {
-                console.log("res.data =>" ,res.data)
                 setTotalTime(res.data.totalMinutes)
                 setTasks(res.data.tasks)
             })
 
-        console.log()
     }, [userId,selectedDate])
 
     return (

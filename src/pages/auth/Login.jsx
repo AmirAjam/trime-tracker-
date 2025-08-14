@@ -5,11 +5,13 @@ import PrimaryButton from "../../components/ui/PrimaryButton";
 import AuthInput from "./AuthInput";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/useAuth";
 
 import setLocalStorage from '../../utils/setLocalStorage'
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const {
     register,
@@ -20,14 +22,10 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await loginUser(data);
-      console.log(response)
       if (response.status === 200) {
-        setLocalStorage("token",response.data.accessToken)
-        setLocalStorage("id",response.data.user.id)
+        login(response.data.accessToken, response.data.user.id);
         toast.success("ورود موفقیت‌آمیز بود!");
-        setTimeout(() => {
-          navigate('/')
-        }, 3000);
+        navigate('/')
       }
       else {
         toast.error("نام کاربری یا رمز عبور اشتباه است");
