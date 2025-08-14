@@ -44,7 +44,7 @@ const Tracker = () => {
 
     useEffect(() => {
         !otherUserId ? getTasks() : ""
-    }, [selectedDate])
+    }, [selectedDate,otherUserId])
 
     return (
         <main className='py-10'>
@@ -67,9 +67,9 @@ const Tracker = () => {
                 </section>
                 <section className='mt-12'>
                     {!otherUserId ?
-                        < PrimaryTable tasks={tasks} reloadFetchTask={getTasks} />
+                        <PrimaryTable tasks={tasks} reloadFetchTask={getTasks} />
                         :
-                        < ReadOnlyTable selectedDate={selectedDate} userId={otherUserId} setTotalTime={setTotalTime} />
+                        <ReadOnlyTable selectedDate={selectedDate} userId={otherUserId} setTotalTime={setTotalTime} />
                     }
                 </section>
             </div>

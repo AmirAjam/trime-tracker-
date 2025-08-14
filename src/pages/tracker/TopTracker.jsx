@@ -26,6 +26,7 @@ const TopTracker = ({ backOneDay, forwardOneDay, selectedDate, reloadFetchTask, 
                 )
         }
         else {
+            reloadFetchTask()
         }
 
     }
