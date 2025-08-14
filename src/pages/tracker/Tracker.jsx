@@ -38,6 +38,9 @@ const Tracker = () => {
                 <section className='mt-12'>
                     <PrimaryTable tasks={tasks} reloadFetchTask={getTasks} />
                 </section>
+                <section className='mt-12'>
+                    <PrimaryTable tasks={tasks} reloadFetchTask={getTasks} />
+                </section>
             </div>
         </main>
     )
