@@ -23,6 +23,7 @@ const PrimaryTable = ({ tasks, reloadFetchTask }) => {
             <TableHead className="w-1/4 text-right text-white">تیتر</TableHead>
             <TableHead className="text-right w-1/10 text-white">شروع</TableHead>
             <TableHead className="text-right w-1/10 text-white">پایان</TableHead>
+            <TableHead className="text-right w-1/10 text-white">مدت</TableHead>
             <TableHead className="text-right w-2/5 text-white">توضیحات</TableHead>
             <TableHead className="text-right w-2/10 text-white">عملیات</TableHead>
           </TableRow>

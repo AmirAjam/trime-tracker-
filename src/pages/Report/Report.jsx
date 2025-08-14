@@ -13,7 +13,7 @@ import getLocalStorage from '@/utils/getLocalStorage';
 import moment from 'moment-jalaali';
 import { getAllUsersDailyTime, getAllUsersWeeklyTime } from '@/api/reportApi';
 import { Link, useSearchParams } from 'react-router-dom';
-import { formatMinutesToHHMM } from '@/utils/changeDuratonTimeFormat';
+import { formatMinutesToHHMM } from '@/utils/changeDurationTimeFormat';
 import icons from '@/icons';
 
 const Report = () => {

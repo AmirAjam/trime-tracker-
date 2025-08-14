@@ -11,7 +11,7 @@ import {
 import { getOtherUserTimes, getTimes } from '@/api/timesApi';
 import getLocalStorage from '@/utils/getLocalStorage';
 import moment from 'moment-jalaali';
-import { formatMinutesToHHMM } from '@/utils/changeDuratonTimeFormat';
+import { formatMinutesToHHMM } from '@/utils/changeDurationTimeFormat';
 
 
 const ReadOnlyTable = ({ selectedDate, userId, setTotalTime }) => {

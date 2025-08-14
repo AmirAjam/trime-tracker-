@@ -6,7 +6,7 @@ import getLocalStorage from '@/utils/getLocalStorage';
 import { getTimes } from '@/api/timesApi';
 import ReadOnlyTable from '@/components/ReadOnlyTable';
 import { Link } from 'react-router-dom';
-import { formatMinutesToHHMM } from '@/utils/changeDuratonTimeFormat';
+import { formatMinutesToHHMM } from '@/utils/changeDurationTimeFormat';
 import icons from '@/icons';
 
 

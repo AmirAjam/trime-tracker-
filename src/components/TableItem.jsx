@@ -5,6 +5,7 @@ import { deleteTask, putEditTime, stopTask } from '@/api/timesApi';
 import getLocalStorage from '@/utils/getLocalStorage';
 import icons from '@/icons';
 import { toast } from 'sonner';
+import { formatMinutesToHHMM } from '@/utils/changeDurationTimeFormat';
 
 const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
 
@@ -13,6 +14,7 @@ const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
     const [taskDescription, setTaskDescription] = useState("")
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("")
+    const [durationTime, setDurationTime] = useState(null)
 
     const token = getLocalStorage('token')
 
@@ -58,15 +60,28 @@ const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
     const changeTimeFormat = (time) => {
         return moment.utc(time).local().format("HH:mm")
     }
+
+    const calDurationTime = (startTime) => {
+        return moment().diff(moment(startTime), "minutes");
+    }
     useEffect(() => {
+        const updateDuration = () => {
+            if (task.durationMinutes) {
+                setDurationTime(formatMinutesToHHMM(task.durationMinutes))
+            } else {
+                const durationMinuteTime = calDurationTime(task.startTime)
+                setDurationTime(formatMinutesToHHMM(durationMinuteTime))
+            }
+        }
+        updateDuration()
+        const intervalId = setInterval(updateDuration, 60000)
+
         task.startTime ? setStartTime(changeTimeFormat(task.startTime)) : setStartTime("")
-
-        task.endTime ? setEndTime(moment.utc(task.endTime).local().format("HH:mm")) : setEndTime("")
-
+        task.endTime ? setEndTime(changeTimeFormat(task.endTime)) : setEndTime("")
         task.title ? setTaskTitle(task.title) : ""
-
         task.description ? setTaskDescription(task.description) : ""
 
+        return () => clearInterval(intervalId)
     }, [])
     return (
         <>
@@ -76,7 +91,7 @@ const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
                         <input type="text"
                             value={taskTitle}
                             onChange={e => setTaskTitle(e.target.value)}
-                            className='bg-dark py-1 w-3/4 px-2 rounded-sm' /></TableCell>
+                            className='bg-dark py-2 w-4/5 px-2 rounded-sm text-sm' /></TableCell>
                     <TableCell>
                         <input type="text"
                             value={startTime}
@@ -89,6 +104,9 @@ const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
                             className='bg-dark py-1 w-18 text-center rounded-sm' />
                     </TableCell>
                     <TableCell>
+                        <p>{durationTime}</p>
+                    </TableCell>
+                    <TableCell>
                         <textarea
                             value={taskDescription}
                             onChange={e => setTaskDescription(e.target.value)}
@@ -96,12 +114,15 @@ const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
                bg-dark rounded-lg outline-0 p-2'></textarea>
                     </TableCell>
                     <TableCell className="text-right flex items-center mt-6">
-                        <button onClick={() => editTask(task._id)} className='bg-green-800 py-1.5 px-3 text-sm rounded-lg cursor-pointer'>ذخیره</button>
+                        <button onClick={() => editTask(task._id)}
+                            className='bg-green-800 py-1.5 px-3 text-sm rounded-lg cursor-pointer hover:bg-green-900 duration-300'>
+                            ذخیره
+                        </button>
                         <button onClick={() => deleteTaskHandler(task._id)}
-                            className='bg-red-700 py-1.5 px-3 text-sm rounded-lg cursor-pointer mr-3'>حذف</button>
+                            className='bg-red-700 py-1.5 px-3 text-sm rounded-lg cursor-pointer mr-3 hover:bg-red-800 duration-300'>حذف</button>
                         {!endTime &&
                             <button onClick={() => stopTaskHandler(task._id)} className='p-1.5 text-sm rounded-sm cursor-pointer mr-5'>
-                                <Stop className='text-lg text-red-700' />
+                                <Stop className='text-lg text-red-700 hover:text-red-800 duration-300' />
                             </button>
                         }
                     </TableCell>
@@ -129,6 +150,10 @@ const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
                                 onChange={e => setEndTime(e.target.value)}
                                 className='bg-dark py-1 w-18 text-center rounded-sm' />
                         </div>
+                    </div>
+                    <div className='flex items-center gap-2 mt-8 text-white font-Vazirmatn-Bold text-lg'>
+                        <h2 className='text-lg'>مدت:</h2>
+                        <p>{durationTime}</p>
                     </div>
                     <div className='flex items-center gap-5 mt-8'>
                         <h2 className='text-lg'>تیتر:</h2>
