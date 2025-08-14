@@ -7,8 +7,12 @@ import { getTimes } from '@/api/timesApi';
 import ReadOnlyTable from '@/components/ReadOnlyTable';
 import { Link } from 'react-router-dom';
 import { formatMinutesToHHMM } from '@/utils/changeDuratonTimeFormat';
+import icons from '@/icons';
+
 
 const Tracker = () => {
+    const { AngleRight } = icons
+
     const [tasks, setTasks] = useState(null)
     const [totalTime, setTotalTime] = useState(0)
     const [selectedDate, setSelectedDate] = useState(moment());
@@ -52,8 +56,14 @@ const Tracker = () => {
                     reloadFetchTask={getTasks}
                     changeUser={changeUser} />
                 <section className='mt-12 bg-darker rounded-lg p-5 flex justify-between items-center'>
-                    <h2 className='text-2xl'>مجموع : {formatMinutesToHHMM(totalTime)}</h2>
-                    <Link className='text-xl' to={`/report?currentDay=${selectedDate.format("YYYY-MM-DD")}`}>گزارش</Link>
+                    <h2 className='text-lg sm:text-2xl'>مجموع : {formatMinutesToHHMM(totalTime)}</h2>
+                    <Link
+                        className='sm:text-xl bg-dark hover:bg-dark/50 duration-300 py-2 px-4 flex 
+                        justify-center items-center rounded-sm'
+                        to={`/report?currentDay=${selectedDate.format("YYYY-MM-DD")}`}>
+                        گزارش
+                        <AngleRight className='rotate-180 mr-2' />
+                    </Link>
                 </section>
                 <section className='mt-12'>
                     {!otherUserId ?

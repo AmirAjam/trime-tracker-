@@ -17,8 +17,6 @@ const getAllUsersDailyTime = async (day,token) => {
 };
 
 const getAllUsersWeeklyTime = async (saturday,currentDay,token) => {
-    console.log("saturday => ",saturday)
-    console.log("currentDay => ",currentDay)
     try {
         const response = await axios.get(`reports/`, {
             headers: {
