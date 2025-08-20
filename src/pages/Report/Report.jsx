@@ -32,6 +32,8 @@ const Report = () => {
 
         getAllUsersWeeklyTime(saturday, currentDay, token)
             .then(res => setWeeklyLeaderboard(res.data.leaderboard))
+
+        console.log(dailyLeaderboard)
     }, [])
     return (
         <div className='container mt-12'>
@@ -62,7 +64,13 @@ const Report = () => {
                                         <p>{user.name}</p>
                                     </TableCell>
                                     <TableCell>
-                                        <p>{formatMinutesToHHMM(user.totalMinutes)}</p>
+                                        <span className='mt-1 inline-block'>{formatMinutesToHHMM(user.totalMinutes)}</span>
+                                        {user.isActiveTask ?
+                                            <span className='bg-green-700 text-sm py-1 rounded-sm mr-5 w-16 inline-block'>فعال</span>
+                                            :
+                                            <span className='bg-red-700 text-sm py-1 rounded-sm mr-5 w-16 inline-block'>غیرفعال</span>
+
+                                        }
                                     </TableCell>
                                 </TableRow>
                             )
