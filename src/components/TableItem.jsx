@@ -20,19 +20,24 @@ const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
 
 
     const editTask = (taskId) => {
+
         const newTask = {
             title: taskTitle,
             description: taskDescription,
-            startTime: convertToISOString(startTime, task.startTime),
-            endTime: endTime ? convertToISOString(endTime, task.startTime) : ""
-        }
+            startTime: convertToISOString(startTime),
+            endTime: endTime ? convertToISOString(endTime) : ""
+        };
 
+        if (moment(newTask.startTime).isAfter(moment(newTask.endTime))) {
+            console.log("Log!!!!!");
+            newTask.startTime = moment(newTask.startTime).subtract(1, "day").toISOString();
+        }
 
         putEditTime(taskId, newTask, token)
             .then(res => {
                 toast.success("با موفقیت تغییر کرد")
-            })
-    }
+            });
+    };
 
     const deleteTaskHandler = (id) => {
         deleteTask(id, token)
@@ -44,8 +49,8 @@ const TableItem = ({ mobileItem, task, reloadFetchTask }) => {
             .then(res => setEndTime(changeTimeFormat(res.data.timeEntry.endTime)))
     }
 
-    const convertToISOString = (timeStr, baseDate) => {
-        const date = new Date(baseDate);
+    const convertToISOString = (timeStr) => {
+        const date = new Date();
 
         const [hours, minutes] = timeStr.split(":").map(Number);
 

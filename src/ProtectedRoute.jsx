@@ -8,13 +8,11 @@ import { getUser } from "./api/userAPi";
 const ProtectedRoute = ({ children }) => {
   const [isLogin,setIsLogin] = useState(true)
   const token = getLocalStorage("token")
-  console.log(token)
   useEffect(() => {
     getUser(token)
       .then(res => setIsLogin(res.data.success))
   }, [])
 
-  console.log("isLogin => ",isLogin)
   if (!isLogin) {
     return <Navigate to="/login" replace />
   }
